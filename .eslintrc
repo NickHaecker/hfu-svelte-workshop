@@ -1,0 +1,17 @@
+{
+  "env": {
+    "node": true,
+    "browser": true,
+    "es2021": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "extends": ["eslint:recommended", "plugin:svelte/recommended", "prettier"],
+  "plugins": ["prettier"],
+  "overrides": [],
+  "rules": {
+    "prettier/prettier": ["error"]
+  }
+}
