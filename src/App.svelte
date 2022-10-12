@@ -34,33 +34,45 @@
    * @param {string} key
    */
   function handleKeyPress(key) {
+    console.log(key);
     // Skip when keypress is not allowed
     if (!ALLOWED_KEYS.includes(key)) return;
 
     // Destructure position
     const { x, y } = position;
 
+    // Handle backspace
     if (key === 'BACKSPACE') {
-      grid[y][x] = '';
+      grid[y][x - 1] = '';
       position.x = x - 1 > 0 ? x - 1 : 0;
-    } else if (key === 'ENTER') {
+      return;
+    }
+
+    // Handle enter
+    if (key === 'ENTER') {
       const currentWord = grid[y].join('').toLowerCase();
+
       if (currentWord.length !== 5) {
         alert('Not enough letters');
         return;
       }
+
       if (!WORDS.filter((word) => word.toLowerCase() === currentWord).length) {
         alert(`${currentWord} not in word list`);
         return;
       }
+
       position.y = y + 1 < 5 ? y + 1 : y;
       position.x = y + 1 < 5 ? 0 : x;
-    } else {
-      if (grid[y][x] === '') {
-        grid[y][x] = key;
-      }
-      position.x = x + 1 < 5 ? x + 1 : x;
+
+      return;
     }
+
+    // Handle letters
+    if (grid[y][x] === '') {
+      grid[y][x] = key;
+    }
+    position.x = x + 1 < 6 ? x + 1 : x;
   }
 
   onMount(() => {
