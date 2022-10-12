@@ -10,6 +10,7 @@
 
   const solution = WORDS[getRandomInt(0, WORDS.length)];
   const position = { x: 0, y: 0 };
+  const usedWords = [];
   const grid = [
     ['', '', '', '', ''],
     ['', '', '', '', ''],
@@ -50,17 +51,24 @@
 
     // Handle enter
     if (key === 'ENTER') {
-      const currentWord = grid[y].join('').toLowerCase();
+      const currentWord = grid[y].join('').toUpperCase();
 
       if (currentWord.length !== 5) {
         alert('Not enough letters');
         return;
       }
 
-      if (!WORDS.filter((word) => word.toLowerCase() === currentWord).length) {
-        alert(`${currentWord} not in word list`);
+      if (!WORDS.filter((word) => word.toUpperCase() === currentWord).length) {
+        alert(`${currentWord.toUpperCase()} not in word list`);
         return;
       }
+
+      if (usedWords.includes(currentWord.toUpperCase())) {
+        alert(`${currentWord.toUpperCase()} already used`);
+        return;
+      }
+
+      usedWords.push(currentWord);
 
       position.y = y + 1 < 5 ? y + 1 : y;
       position.x = y + 1 < 5 ? 0 : x;
