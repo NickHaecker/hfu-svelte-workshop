@@ -34,15 +34,27 @@
    * @param {string} key
    */
   function handleKeyPress(key) {
+    // Skip when keypress is not allowed
     if (!ALLOWED_KEYS.includes(key)) return;
+
+    // Destructure position
     const { x, y } = position;
+
     if (key === 'BACKSPACE') {
       grid[y][x] = '';
       position.x = x - 1 > 0 ? x - 1 : 0;
     } else if (key === 'ENTER') {
-      if (y > 6) return;
-      position.y += 1;
-      position.x = 0;
+      const currentWord = grid[y].join('').toLowerCase();
+      if (currentWord.length !== 5) {
+        alert('Not enough letters');
+        return;
+      }
+      if (!WORDS.filter((word) => word.toLowerCase() === currentWord).length) {
+        alert(`${currentWord} not in word list`);
+        return;
+      }
+      position.y = y + 1 < 5 ? y + 1 : y;
+      position.x = y + 1 < 5 ? 0 : x;
     } else {
       if (grid[y][x] === '') {
         grid[y][x] = key;
@@ -62,6 +74,9 @@
 </script>
 
 <Header />
+
+{position.x}
+{position.y}
 
 <!-- GRID -->
 <div class="mx-auto my-12 grid max-w-xs gap-2">
