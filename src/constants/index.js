@@ -1,3 +1,6 @@
+import words from './words.json';
+
+export const WORDS = words;
 export const ALLOWED_KEYS = [
   'Q',
   'W',
