@@ -6,6 +6,7 @@
   import Keyboard from './components/keyboard/Keyboard.svelte';
   import { WORDS, ALLOWED_KEYS } from './constants';
   import { getRandomInt } from './utils';
+  import { settingsDialog, tutorialDialog } from './store';
 
   const solution = WORDS[getRandomInt(0, WORDS.length)];
   const position = { x: 0, y: 0 };
@@ -53,6 +54,8 @@
   onMount(() => {
     // Add listener for keypressed keys on the physical keyboard.
     document.addEventListener('keydown', ({ key }) => {
+      // Ignore when any dialog is open
+      if ($tutorialDialog || $settingsDialog) return;
       handleKeyPress(key.toUpperCase());
     });
   });
