@@ -4,9 +4,11 @@
   import TutorialDialog from './components/dialogs/TutorialDialog.svelte';
   import Header from './components/layout/Header.svelte';
   import Keyboard from './components/keyboard/Keyboard.svelte';
-  import { ALLOWED_KEYS } from './constants';
+  import { WORDS, ALLOWED_KEYS } from './constants';
+  import { getRandomInt } from './utils';
 
-  let position = { x: 0, y: 0 };
+  const solution = WORDS[getRandomInt(0, WORDS.length)];
+  const position = { x: 0, y: 0 };
   const grid = [
     ['', '', '', '', ''],
     ['', '', '', '', ''],
