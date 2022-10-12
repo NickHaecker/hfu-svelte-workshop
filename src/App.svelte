@@ -1,4 +1,7 @@
 <script>
+  import { scale } from 'svelte/transition';
+  import { cubicInOut } from 'svelte/easing';
+
   import { onMount } from 'svelte';
   import SettingsDialog from './components/dialogs/SettingsDialog.svelte';
   import TutorialDialog from './components/dialogs/TutorialDialog.svelte';
@@ -100,10 +103,15 @@
   {#each grid as row}
     <div class="grid grid-cols-5 place-items-center">
       {#each row as key}
-        <div
-          class="col-span-1 flex h-14 w-14 items-center justify-center rounded-lg  border border-red-500 text-2xl font-semibold"
-        >
-          {key}
+        <div class="col-span-1 h-14 w-14 overflow-hidden rounded-lg bg-red-50">
+          {#if key}
+            <span
+              transition:scale={{ duration: 200, easing: cubicInOut }}
+              class="flex h-full w-full  items-center justify-center rounded-lg border border-red-500 bg-white text-2xl font-semibold"
+            >
+              {key}
+            </span>
+          {/if}
         </div>
       {/each}
     </div>
