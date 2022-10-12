@@ -75,9 +75,6 @@
 
 <Header />
 
-{position.x}
-{position.y}
-
 <!-- GRID -->
 <div class="mx-auto my-12 grid max-w-xs gap-2">
   {#each grid as row}
