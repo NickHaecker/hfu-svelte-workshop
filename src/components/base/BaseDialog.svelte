@@ -1,4 +1,6 @@
 <script>
+  import { fade, scale } from 'svelte/transition';
+  import { cubicInOut } from 'svelte/easing';
   import { Icon } from '@steeze-ui/svelte-icon';
   import { XCircle } from '@steeze-ui/heroicons';
 
@@ -11,9 +13,13 @@
 
 {#if show}
   <!-- DIALOG WRAPPER -->
-  <div class="absolute inset-0 flex items-center justify-center bg-black/25">
-    <!-- DIALOG CONTETN -->
+  <div
+    transition:fade={{ duration: 200, easing: cubicInOut }}
+    class="absolute inset-0 flex items-center justify-center bg-black/25"
+  >
+    <!-- DIALOG CONTENT -->
     <div
+      transition:scale={{ duration: 200, easing: cubicInOut }}
       class="relative w-full max-w-xl rounded-lg border-2 border-red-500 bg-white p-8 lg:p-10"
     >
       <!-- CLOSE -->
