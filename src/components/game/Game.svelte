@@ -6,7 +6,7 @@
   import Keyboard from '../keyboard/Keyboard.svelte';
   import { ALLOWED_KEYS } from '../../constants';
   import { getRandomWord, wordExists } from '../../utils';
-  import { settingsDialog, tutorialDialog } from '../../store';
+  import { settingsDialog, tutorialDialog, alert } from '../../store';
   import { Icon } from '@steeze-ui/svelte-icon';
   import { ArrowUturnLeft } from '@steeze-ui/heroicons';
 
@@ -63,17 +63,17 @@
       }
 
       if (currentWord.length !== 5) {
-        alert('Not enough letters');
+        alert.update(() => 'Nicht genug Buchstaben');
         return;
       }
 
       if (!wordExists(currentWord)) {
-        alert(`${currentWord} not in word list`);
+        alert.update(() => `${currentWord} nicht in der Wortliste`);
         return;
       }
 
       if (usedWords.includes(currentWord)) {
-        alert(`${currentWord.toUpperCase()} already used`);
+        alert.update(() => `${currentWord} bereits verwendet`);
         return;
       }
 
