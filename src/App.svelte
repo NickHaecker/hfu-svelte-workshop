@@ -11,7 +11,7 @@
   import { getRandomInt } from './utils';
   import { settingsDialog, tutorialDialog } from './store';
 
-  const solution = WORDS[getRandomInt(0, WORDS.length)];
+  const solution = WORDS[getRandomInt(0, WORDS.length)].toUpperCase();
   const position = { x: 0, y: 0 };
   const usedWords = [];
   const grid = [
@@ -98,16 +98,23 @@
 
 <Header />
 
+{solution}
+
 <!-- GRID -->
 <div class="mx-auto my-12 grid max-w-xs gap-2">
-  {#each grid as row}
+  {#each grid as row, y}
     <div class="grid grid-cols-5 place-items-center">
-      {#each row as key}
+      {#each row as key, x}
         <div class="col-span-1 h-14 w-14 overflow-hidden rounded-lg bg-red-50">
           {#if key}
             <span
               transition:scale={{ duration: 200, easing: cubicInOut }}
-              class="flex h-full w-full  items-center justify-center rounded-lg border border-red-500 bg-white text-2xl font-semibold"
+              class="flex h-full w-full  items-center justify-center rounded-lg  text-2xl font-semibold 
+              {position.y > y && solution.charAt(x) === key.toUpperCase()
+                ? 'bg-green-500 text-white'
+                : position.y > y && solution.includes(key.toUpperCase())
+                ? 'bg-orange-500 text-white'
+                : 'border border-red-500 bg-white'}"
             >
               {key}
             </span>
