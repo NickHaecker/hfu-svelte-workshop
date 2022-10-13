@@ -1,7 +1,6 @@
 <script>
   import { scale } from 'svelte/transition';
   import { cubicInOut } from 'svelte/easing';
-
   import { onMount } from 'svelte';
   import SettingsDialog from './components/dialogs/SettingsDialog.svelte';
   import TutorialDialog from './components/dialogs/TutorialDialog.svelte';
@@ -10,10 +9,15 @@
   import { WORDS, ALLOWED_KEYS } from './constants';
   import { getRandomInt } from './utils';
   import { settingsDialog, tutorialDialog } from './store';
+  import { Icon } from '@steeze-ui/svelte-icon';
+  import { ArrowUturnLeft } from '@steeze-ui/heroicons';
 
-  const solution = WORDS[getRandomInt(0, WORDS.length)].toUpperCase();
+  // Game State
+  $: lost = false;
+  $: won = false;
   const position = { x: 0, y: 0 };
-  const usedWords = [];
+  let solution = getRandomWord();
+  let usedWords = [];
   const grid = [
     ['', '', '', '', ''],
     ['', '', '', '', ''],
@@ -38,9 +42,8 @@
    * @param {string} key
    */
   function handleKeyPress(key) {
-    console.log(key);
-    // Skip when keypress is not allowed
-    if (!ALLOWED_KEYS.includes(key)) return;
+    // Skip when keypress is not allowed, game is won or lost
+    if (!ALLOWED_KEYS.includes(key) || lost || won) return;
 
     // Destructure position
     const { x, y } = position;
@@ -55,6 +58,11 @@
     // Handle enter
     if (key === 'ENTER') {
       const currentWord = grid[y].join('').toUpperCase();
+
+      // Won
+      if (currentWord === solution) {
+        won = true;
+      }
 
       if (currentWord.length !== 5) {
         alert('Not enough letters');
@@ -71,9 +79,13 @@
         return;
       }
 
+      if (y + 1 === 5) {
+        lost = true;
+      }
+
       usedWords.push(currentWord);
 
-      position.y = y + 1 < 5 ? y + 1 : y;
+      position.y = y + 1 < 6 ? y + 1 : y;
       position.x = y + 1 < 5 ? 0 : x;
 
       return;
@@ -84,6 +96,20 @@
       grid[y][x] = key;
     }
     position.x = x + 1 < 6 ? x + 1 : x;
+  }
+
+  function resetGame() {
+    position.x = 0;
+    position.y = 0;
+    usedWords = [];
+    grid.forEach((row, y) => row.forEach((key, x) => (grid[y][x] = '')));
+    solution = getRandomWord();
+    won = false;
+    lost = false;
+  }
+
+  function getRandomWord() {
+    return WORDS[getRandomInt(0, WORDS.length)].toUpperCase();
   }
 
   onMount(() => {
@@ -97,8 +123,6 @@
 </script>
 
 <Header />
-
-{solution}
 
 <!-- GRID -->
 <div class="mx-auto my-12 grid max-w-xs gap-2">
@@ -123,6 +147,30 @@
       {/each}
     </div>
   {/each}
+
+  {#if won}
+    <div
+      class="mx-auto mt-4 inline-flex rounded-lg border border-green-500 bg-green-50 p-2 px-6"
+    >
+      <span>Gewonnen 🎉</span>
+      <button class="ml-2" on:click={resetGame}>
+        <Icon class="h-5 w-5" src={ArrowUturnLeft} theme="solid" />
+      </button>
+    </div>
+  {/if}
+
+  {#if lost}
+    <div
+      class="mx-auto mt-4 inline-flex rounded-lg border border-red-500 bg-red-50 p-2 px-6"
+    >
+      <div class="inline-flex items-center">
+        <span>Das Wort war {solution}</span>
+        <button class="ml-2" on:click={resetGame}>
+          <Icon class="h-5 w-5" src={ArrowUturnLeft} theme="solid" />
+        </button>
+      </div>
+    </div>
+  {/if}
 </div>
 
 <Keyboard on:keypress={onUpdateKeyboard} />
