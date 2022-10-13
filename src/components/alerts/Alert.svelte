@@ -37,7 +37,6 @@
   });
 </script>
 
-{progress}
 {#if $alert}
   <div
     class="absolute top-2 left-1/2 inline-block -translate-x-1/2"
