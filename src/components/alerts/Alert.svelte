@@ -8,26 +8,36 @@
   import { XCircle } from '@steeze-ui/heroicons';
 
   let progress = 100;
+  let interval = null;
 
   $: if ($alert) {
     progress = 100;
+    interval = createInterval();
   }
 
-  function closeAlert() {
-    progress = 0;
-    alert.update(() => null);
-  }
-
-  onMount(() => {
-    setInterval(() => {
+  function createInterval() {
+    clearInterval(interval);
+    interval = setInterval(() => {
       progress -= 1;
       if (progress === 0) {
         closeAlert();
       }
     }, 50);
+    return interval;
+  }
+
+  function closeAlert() {
+    progress = 0;
+    clearInterval(interval);
+    alert.update(() => null);
+  }
+
+  onMount(() => {
+    createInterval();
   });
 </script>
 
+{progress}
 {#if $alert}
   <div
     class="absolute top-2 left-1/2 inline-block -translate-x-1/2"
