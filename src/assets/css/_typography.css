@@ -1,0 +1,23 @@
+p {
+  margin-bottom: 0.5rem;
+}
+p:last-child {
+  margin-bottom: 0;
+}
+ol,
+ul {
+  margin-left: 1.5rem;
+  padding-left: 0;
+  margin-bottom: 0.5rem;
+}
+ul li::marker,
+ol li::marker {
+  font-weight: 600;
+  color: var(--red-500);
+}
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-top: 1px var(--red-300) solid;
+  border-bottom: 0;
+}

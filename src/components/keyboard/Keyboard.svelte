@@ -23,11 +23,11 @@
   }
 </script>
 
-<div class="flex flex-col items-center space-y-1">
+<div class="keyboard">
   <!-- KEYBOARD ROWS -->
   {#each rows as row, index}
     <!-- EACH KEYBOARD ROW -->
-    <div class="flex flex-nowrap space-x-1">
+    <div class="keyboard__row">
       <!-- ENTER KEY ON LAST ROW -->
       {#if index === 2}
         <Key on:click={onClickEnter}>Enter</Key>
@@ -41,9 +41,29 @@
       <!-- BACKSPACE KEY ON LAST ROW -->
       {#if index === 2}
         <Key on:click={onClickBackspace}>
-          <Icon src={Backspace} theme="solid" class="h-6 w-6" />
+          <Icon src={Backspace} theme="solid" />
         </Key>
       {/if}
     </div>
   {/each}
 </div>
+
+<style>
+  .keyboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .keyboard > * ~ * {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+  .keyboard__row {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  :global(.keyboard__row > * ~ *) {
+    margin-left: 0.125rem;
+    margin-right: 0.125rem;
+  }
+</style>

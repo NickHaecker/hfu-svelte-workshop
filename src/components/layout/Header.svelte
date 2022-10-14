@@ -11,22 +11,54 @@
   }
 </script>
 
-<header class="flex h-16 items-center border-b-2 border-red-500">
-  <div class="container mx-auto flex justify-between space-x-6">
+<header class="header">
+  <div class="header__container container ">
     <!-- BRANDING -->
-    <div class="flex items-center">
-      <img class="h-6 w-6" src="/logos/svelte.svg" alt="Svelte Logo" />
-      <span class="text-lg font-semibold">wordle</span>
+    <div class="header__brand">
+      <img height="24" width="24" src="/logos/svelte.svg" alt="Svelte Logo" />
+      <span>wordle</span>
     </div>
 
     <!-- ACTIONS -->
-    <div class="flex items-center space-x-2">
+    <div class="header__action">
       <button on:click={onClickTutorial}>
-        <Icon src={QuestionMarkCircle} theme="solid" class="h-6 w-6 " />
+        <Icon src={QuestionMarkCircle} theme="solid" />
       </button>
       <button on:click={onClickSettings}>
-        <Icon src={Cog8Tooth} theme="solid" class="h-6 w-6 " />
+        <Icon src={Cog8Tooth} theme="solid" />
       </button>
     </div>
   </div>
 </header>
+
+<style>
+  .header {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px var(--red-500) solid;
+    height: 4rem;
+  }
+  .header__container {
+    display: flex;
+    justify-content: space-between;
+  }
+  .header__brand {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .header__brand img {
+    margin-right: 0.125rem;
+  }
+  .header__action {
+    display: flex;
+    align-items: center;
+  }
+  .header__action button {
+    margin-left: 0.5rem;
+  }
+  .header__action button:first-child {
+    margin-left: 0;
+  }
+</style>

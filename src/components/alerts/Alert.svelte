@@ -38,19 +38,35 @@
 </script>
 
 {#if $alert}
-  <div
-    class="absolute top-2 left-1/2 inline-block -translate-x-1/2"
-    transition:scale={{ duration: 200, easing: cubicInOut }}
-  >
+  <div class="alert" transition:scale={{ duration: 200, easing: cubicInOut }}>
     <BaseAlert red>
       <span>{$alert}</span>
-      <div
-        class="absolute bottom-0 left-0 right-0 h-[3px] origin-left bg-red-500"
-        style={`transform: scaleX(${progress}%)`}
-      />
-      <button class="translate-x-1" on:click={closeAlert}>
-        <Icon class="h-5 w-5" src={XCircle} theme="solid" />
+      <div class="alert__progress" style={`transform: scaleX(${progress}%)`} />
+      <button class="alert__close" on:click={closeAlert}>
+        <Icon src={XCircle} theme="solid" />
       </button>
     </BaseAlert>
   </div>
 {/if}
+
+<style>
+  .alert {
+    display: inline-block;
+    position: absolute;
+    top: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .alert__progress {
+    height: 3px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform-origin: left;
+    background-color: var(--red-500);
+  }
+  .alert__close {
+    transform: translateX(0.5rem);
+  }
+</style>

@@ -13,25 +13,54 @@
 
 {#if show}
   <!-- DIALOG WRAPPER -->
-  <div
-    transition:fade={{ duration: 200, easing: cubicInOut }}
-    class="absolute inset-0 flex items-center justify-center bg-black/25"
-  >
+  <div transition:fade={{ duration: 200, easing: cubicInOut }} class="dialog">
     <!-- DIALOG CONTENT -->
     <div
       transition:scale={{ duration: 200, easing: cubicInOut }}
-      class="relative w-full max-w-xl rounded-lg border-2 border-red-500 bg-white p-8 lg:p-10"
+      class="dialog__content"
     >
       <!-- CLOSE -->
-      <button class="absolute top-4 right-4 h-6 w-6" on:click={onClickClose}>
+      <button class="dialog__close" on:click={onClickClose}>
         <Icon src={XCircle} theme="solid" />
       </button>
+
       <!-- TITLE -->
-      <h2 class="mb-4 text-xl font-semibold">
+      <h2 class="dialog__title">
         <slot name="title" />
       </h2>
+
       <!-- CONTENT -->
       <slot />
     </div>
   </div>
 {/if}
+
+<style>
+  .dialog {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 25%);
+  }
+  .dialog__content {
+    position: relative;
+    max-width: var(--max-w-xl);
+    border-radius: var(--rounded-lg);
+    border: 2px var(--red-500) solid;
+    background-color: white;
+    padding: 2rem;
+    width: 100%;
+  }
+  .dialog__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+  .dialog__title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+</style>

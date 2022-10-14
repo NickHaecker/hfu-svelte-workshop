@@ -117,20 +117,22 @@
 </script>
 
 <!-- GRID -->
-<div class="mx-auto my-12 grid max-w-xs gap-2">
+<div class="grid">
   {#each grid as row, y}
-    <div class="grid grid-cols-5 place-items-center">
+    <div class="grid__row">
       {#each row as key, x}
-        <div class="col-span-1 h-14 w-14 overflow-hidden rounded-lg bg-red-50">
+        <div class="grid__col">
           {#if key}
             <span
               transition:scale={{ duration: 200, easing: cubicInOut }}
-              class="flex h-full w-full  items-center justify-center rounded-lg  text-2xl font-semibold 
-              {position.y > y && solution.charAt(x) === key.toUpperCase()
-                ? 'bg-green-500 text-white'
+              class="grid__col__key
+                {position.y > y && solution.charAt(x) === key.toUpperCase()
+                ? 'grid__col__key--green'
                 : position.y > y && solution.includes(key.toUpperCase())
-                ? 'bg-orange-500 text-white'
-                : 'border border-red-500 bg-white'}"
+                ? 'grid__col__key--red'
+                : position.y > y
+                ? 'grid__col__key--gray'
+                : ''}"
             >
               {key}
             </span>
@@ -140,23 +142,80 @@
     </div>
   {/each}
 
-  {#if won}
-    <BaseAlert green>
-      <span>Gewonnen 🎉</span>
-      <button class="ml-2" on:click={resetGame}>
-        <Icon class="h-5 w-5" src={ArrowUturnLeft} theme="solid" />
-      </button>
-    </BaseAlert>
-  {/if}
+  <div class="details">
+    {#if won}
+      <BaseAlert green>
+        <span>Gewonnen 🎉</span>
+        <button on:click={resetGame}>
+          <Icon src={ArrowUturnLeft} theme="solid" />
+        </button>
+      </BaseAlert>
+    {/if}
 
-  {#if lost}
-    <BaseAlert red>
-      <span>Das Wort war {solution}</span>
-      <button class="ml-2" on:click={resetGame}>
-        <Icon class="h-5 w-5" src={ArrowUturnLeft} theme="solid" />
-      </button>
-    </BaseAlert>
-  {/if}
+    {#if lost}
+      <BaseAlert red>
+        <span>Das Wort war {solution}</span>
+        <button on:click={resetGame}>
+          <Icon src={ArrowUturnLeft} theme="solid" />
+        </button>
+      </BaseAlert>
+    {/if}
+  </div>
 </div>
 
 <Keyboard on:keypress={onUpdateKeyboard} />
+
+<style>
+  .grid {
+    display: grid;
+    margin: 3rem auto;
+    max-width: var(--max-w-xs);
+    gap: 0.5rem;
+  }
+  .grid__row {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    place-items: center;
+  }
+  .grid__col {
+    grid-column: span 1 / span 1;
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: var(--rounded-lg);
+    background-color: var(--red-50);
+  }
+  .grid__col__key {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--rounded-lg);
+    font-size: 24px;
+    font-weight: 600;
+    border: 1px var(--red-500) solid;
+  }
+  .grid__col__key--green {
+    border: none;
+    color: white;
+    background-color: var(--green-500);
+  }
+  .grid__col__key--red {
+    border: none;
+    color: white;
+    background-color: var(--red-500);
+  }
+  .grid__col__key--gray {
+    border: none;
+    background-color: var(--gray-200);
+  }
+  .details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .details button {
+    margin-left: 0.5rem;
+  }
+</style>
