@@ -129,7 +129,7 @@
                 {position.y > y && solution.charAt(x) === key.toUpperCase()
                 ? 'grid__col__key--green'
                 : position.y > y && solution.includes(key.toUpperCase())
-                ? 'grid__col__key--red'
+                ? 'grid__col__key--orange'
                 : position.y > y
                 ? 'grid__col__key--gray'
                 : ''}"
@@ -200,10 +200,10 @@
     color: white;
     background-color: var(--green-500);
   }
-  .grid__col__key--red {
+  .grid__col__key--orange {
     border: none;
     color: white;
-    background-color: var(--red-500);
+    background-color: var(--orange-500);
   }
   .grid__col__key--gray {
     border: none;
