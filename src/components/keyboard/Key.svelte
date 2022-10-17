@@ -32,30 +32,31 @@
     text-transform: uppercase;
     transition: all 100ms linear;
   }
-  button:not(.highlight--green, .highlight-orange):hover {
+  button:not(.highlight--flop, .highlight--hit, .highlight--close):hover {
     transform: scale(0.95);
     background-color: var(--red-50);
   }
-  button:not(.highlight--green, .highlight-orange):active {
+
+  button:not(.highlight--hit, .highlight-close):active {
     transform: scale(0.9);
     color: white;
     background-color: var(--red-500);
   }
-  button.highlight--close {
-    cursor: default;
-    border: none;
+  .highlight--close {
     color: white;
     background-color: var(--orange-500);
   }
-  button.highlight--hit {
-    cursor: default;
-    border: none;
+  .highlight--hit {
     color: white;
     background-color: var(--green-500);
   }
-  button.highlight--flop {
+  .highlight--flop {
+    background-color: var(--gray-200);
+  }
+  .highlight--flop,
+  .highlight--hit,
+  .highlight--close {
     cursor: default;
     border: none;
-    background-color: var(--gray-200);
   }
 </style>

@@ -5,13 +5,19 @@
   import Key from './Key.svelte';
   import { game } from '../../store';
 
+  const dispatch = createEventDispatcher();
+
+  const rows = [
+    ['Q', 'W', 'E', 'R', 'T', 'Z', 'U', 'I', 'O', 'P', 'Ü'],
+    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ö', 'Ä'],
+    ['Y', 'X', 'C', 'V', 'B', 'N', 'M'],
+  ];
+
   let hits = [];
   let closeHits = [];
   let flops = [];
 
-  /**
-   * Listen to changes in game data to update used keys visually.
-   */
+  // Listen to changes in game data to update used keys visually
   $: {
     if ($game.position.y > 0) {
       const y = $game.position.y - 1;
@@ -53,22 +59,14 @@
     }
   }
 
-  const rows = [
-    ['Q', 'W', 'E', 'R', 'T', 'Z', 'U', 'I', 'O', 'P', 'Ü'],
-    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ö', 'Ä'],
-    ['Y', 'X', 'C', 'V', 'B', 'N', 'M'],
-  ];
-
-  const dispatch = createEventDispatcher();
-
   function onClickKey(event) {
     dispatch('keypress', event.target.innerText);
   }
   function onClickEnter() {
-    dispatch('keypress', 'ENTER');
+    dispatch('keypress', 'enter');
   }
   function onClickBackspace() {
-    dispatch('keypress', 'BACKSPACE');
+    dispatch('keypress', 'backspace');
   }
 </script>
 
