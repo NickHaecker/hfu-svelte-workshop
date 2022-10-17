@@ -6,18 +6,13 @@
 <BaseDialog bind:show={$tutorialDialog}>
   <span slot="title">How To Play</span>
   <div slot="default">
-    <p>Guess the Wordle in 6 tries.</p>
+    <p>Errate das Wordle in 6 Versuchen.</p>
     <ul>
-      <li>Each guess must be a valid 5-letter word.</li>
+      <li>Jeder Versuch muss ein gültiges Wort mit 5 Buchstaben sein.</li>
       <li>
-        The color of the tiles will change to show how close your guess was to
-        the word.
+        Die Farbe der Kacheln ändert sich, um zu zeigen, wie nahe du dem Wort
+        dem Wort.
       </li>
     </ul>
-    <hr />
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci placeat
-      esse at?
-    </p>
   </div>
 </BaseDialog>
