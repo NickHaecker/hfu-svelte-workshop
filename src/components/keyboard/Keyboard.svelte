@@ -86,9 +86,9 @@
       {#each row as key}
         <Key
           on:click={onClickKey}
-          close={closeHits.includes(key)}
-          hit={hits.includes(key)}
-          flop={flops.includes(key)}
+          close={closeHits.includes(key.toLowerCase())}
+          hit={hits.includes(key.toLowerCase())}
+          flop={flops.includes(key.toLowerCase())}
           {key}
         />
       {/each}

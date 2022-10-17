@@ -19,7 +19,7 @@
    * @param {string} event.detail
    */
   function onUpdateKeyboard({ detail }) {
-    handleKeyPress(detail);
+    handleKeyPress(detail.toLocaleLowerCase());
   }
 
   /**
@@ -31,26 +31,28 @@
     // Skip when keypress is not allowed, game is won or lost
     if (!ALLOWED_KEYS.includes(key) || $game.lost || $game.won) return;
 
-    if (key === 'BACKSPACE') {
+    if (key === 'backspace') {
       game.setGridKey($game.position.x - 1, $game.position.y, '');
       if ($game.position.x - 1 > 0) {
         game.setPosX($game.position.x - 1);
       } else {
         game.setPosX(0);
       }
-    } else if (key === 'ENTER') {
-      const currentWord = $game.grid[$game.position.y].join('').toUpperCase();
+    } else if (key === 'enter') {
+      const currentWord = $game.grid[$game.position.y].join('').toLowerCase();
       if (currentWord === $game.solution) game.setWon(true);
       if (currentWord.length !== 5) {
         alert.update(() => 'Nicht genug Buchstaben');
         return;
       }
       if (!wordExists(currentWord)) {
-        alert.update(() => `${currentWord} nicht in der Wortliste`);
+        alert.update(
+          () => `'${currentWord.toUpperCase()}' nicht in der Wortliste`
+        );
         return;
       }
       if (usedWords.includes(currentWord)) {
-        alert.update(() => `${currentWord} bereits verwendet`);
+        alert.update(() => `'${currentWord.toUpperCase()}' bereits verwendet`);
         return;
       }
       if ($game.position.y + 1 === 5) game.setLost(true);
@@ -76,7 +78,7 @@
     document.addEventListener('keydown', ({ key }) => {
       // Ignore when any dialog is open
       if ($tutorialDialog || $settingsDialog) return;
-      handleKeyPress(key.toUpperCase());
+      handleKeyPress(key.toLowerCase());
     });
   });
 </script>
@@ -92,16 +94,16 @@
               transition:scale={{ duration: 200, easing: cubicInOut }}
               class="grid__col__key
                 {$game.position.y > y &&
-              $game.solution.charAt(x) === key.toUpperCase()
+              $game.solution.charAt(x) === key.toLowerCase()
                 ? 'grid__col__key--green'
                 : $game.position.y > y &&
-                  $game.solution.includes(key.toUpperCase())
+                  $game.solution.includes(key.toLowerCase())
                 ? 'grid__col__key--orange'
                 : $game.position.y > y
                 ? 'grid__col__key--gray'
                 : ''}"
             >
-              {key}
+              {key === 'ß' ? key : key.toUpperCase()}
             </span>
           {/if}
         </div>
@@ -121,7 +123,7 @@
 
     {#if $game.lost}
       <BaseAlert red>
-        <span>Das Wort war {$game.solution}</span>
+        <span>Das Wort war '{$game.solution.toUpperCase()}'</span>
         <button on:click={resetGame}>
           <Icon src={ArrowUturnLeft} theme="solid" />
         </button>

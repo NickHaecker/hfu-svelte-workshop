@@ -13,7 +13,7 @@ function getRandomInt(min, max) {
 }
 
 export function getRandomWord() {
-  return WORDS[getRandomInt(0, WORDS.length)].toUpperCase();
+  return WORDS[getRandomInt(0, WORDS.length)].toLowerCase();
 }
 
 /**
@@ -21,6 +21,6 @@ export function getRandomWord() {
  */
 export function wordExists(currentWord) {
   return WORDS.filter(
-    (word) => word.toUpperCase() === currentWord.toUpperCase()
+    (word) => word.toLowerCase() === currentWord.toLowerCase()
   ).length;
 }
