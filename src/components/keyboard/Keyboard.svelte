@@ -1,10 +1,7 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
   import { Icon } from '@steeze-ui/svelte-icon';
   import { Backspace } from '@steeze-ui/heroicons';
   import { game } from '../../store';
-
-  const dispatch = createEventDispatcher();
 
   const rows = [
     ['Q', 'W', 'E', 'R', 'T', 'Z', 'U', 'I', 'O', 'P', 'Ü'],
@@ -58,14 +55,14 @@
     }
   }
 
-  function onClickKey(event) {
-    dispatch('keypress', event.target.innerText);
+  function onClickKey() {
+    // Dispatch "keypress" event with klicked value to parent component "Game"
   }
   function onClickEnter() {
-    dispatch('keypress', 'enter');
+    // Dispatch "keypress" event with value "enter" to parent component "Game"
   }
   function onClickBackspace() {
-    dispatch('keypress', 'backspace');
+    // Dispatch "keypress" event with value "backspace" to parent component "Game"
   }
 </script>
 
@@ -75,7 +72,7 @@
     <!-- EACH KEYBOARD ROW -->
     <div class="keyboard__row">
       <!-- ENTER KEY ON LAST ROW -->
-      <button on:click={onClickEnter}>Enter</button>
+      <button>Enter</button>
 
       <!-- KEYS -->
       {#each row as key}
@@ -85,14 +82,13 @@
             {closeHits.includes(key.toLowerCase()) ? 'highlight--close' : ''}
             {flops.includes(key.toLowerCase()) ? 'highlight--flop' : ''}
           "
-          on:click={onClickKey}
         >
           <span>{key}</span>
         </button>
       {/each}
 
       <!-- BACKSPACE KEY ON LAST ROW -->
-      <button on:click={onClickBackspace}>
+      <button>
         <Icon src={Backspace} theme="solid" />
       </button>
     </div>
