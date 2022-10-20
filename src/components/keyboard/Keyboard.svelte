@@ -2,7 +2,6 @@
   import { createEventDispatcher } from 'svelte';
   import { Icon } from '@steeze-ui/svelte-icon';
   import { Backspace } from '@steeze-ui/heroicons';
-  import Key from './Key.svelte';
   import { game } from '../../store';
 
   const dispatch = createEventDispatcher();
@@ -77,25 +76,28 @@
     <div class="keyboard__row">
       <!-- ENTER KEY ON LAST ROW -->
       {#if index === 2}
-        <Key on:click={onClickEnter} key="Enter" />
+        <button on:click={onClickEnter}>Enter</button>
       {/if}
 
       <!-- KEYS -->
       {#each row as key}
-        <Key
+        <button
+          class="
+            {hits.includes(key.toLowerCase()) ? 'highlight--hit' : ''}
+            {closeHits.includes(key.toLowerCase()) ? 'highlight--close' : ''}
+            {flops.includes(key.toLowerCase()) ? 'highlight--flop' : ''}
+          "
           on:click={onClickKey}
-          close={closeHits.includes(key.toLowerCase())}
-          hit={hits.includes(key.toLowerCase())}
-          flop={flops.includes(key.toLowerCase())}
-          {key}
-        />
+        >
+          <span>{key}</span>
+        </button>
       {/each}
 
       <!-- BACKSPACE KEY ON LAST ROW -->
       {#if index === 2}
-        <Key on:click={onClickBackspace}>
+        <button on:click={onClickBackspace}>
           <Icon src={Backspace} theme="solid" />
-        </Key>
+        </button>
       {/if}
     </div>
   {/each}
@@ -118,5 +120,42 @@
   :global(.keyboard__row > * ~ *) {
     margin-left: 0.125rem;
     margin-right: 0.125rem;
+  }
+  button {
+    height: 3.5rem;
+    min-width: 2.75rem;
+    border-radius: var(--rounded-lg);
+    border: 1px var(--red-500) solid;
+    padding: 0 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: all 100ms linear;
+  }
+  button:not(.highlight--flop, .highlight--hit, .highlight--close):hover {
+    transform: scale(0.95);
+    background-color: var(--red-50);
+  }
+
+  button:not(.highlight--hit, .highlight-close):active {
+    transform: scale(0.9);
+    color: white;
+    background-color: var(--red-500);
+  }
+  .highlight--close {
+    color: white;
+    background-color: var(--orange-500);
+  }
+  .highlight--hit {
+    color: white;
+    background-color: var(--green-500);
+  }
+  .highlight--flop {
+    background-color: var(--gray-200);
+  }
+  .highlight--flop,
+  .highlight--hit,
+  .highlight--close {
+    cursor: default;
+    border: none;
   }
 </style>
