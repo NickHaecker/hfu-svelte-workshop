@@ -3,18 +3,17 @@
   export let hit = false;
   export let close = false;
   export let flop = false;
+
+  $: highlightClass = () => {
+    let highlightClass = '';
+    if (hit) highlightClass = 'highlight--hit';
+    else if (close) highlightClass = 'highlight--close';
+    else if (flop) highlightClass = 'highlight--flop';
+    return highlightClass;
+  };
 </script>
 
-<button
-  class={hit
-    ? 'highlight--hit'
-    : close
-    ? 'highlight--close'
-    : flop
-    ? 'highlight--flop'
-    : ''}
-  on:click
->
+<button class={highlightClass()} on:click>
   {#if key}
     <span>{key}</span>
   {/if}
