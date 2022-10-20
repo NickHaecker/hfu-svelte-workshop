@@ -5,10 +5,24 @@
   import BaseAlert from '../base/BaseAlert.svelte';
   import Keyboard from '../keyboard/Keyboard.svelte';
   import { ALLOWED_KEYS } from '../../constants';
-  import { wordExists } from '../../utils';
-  import { settingsDialog, tutorialDialog, alert, game } from '../../store';
+  import { getRandomWord, wordExists } from '../../utils';
+  import { settingsDialog, tutorialDialog, alert } from '../../store';
   import { Icon } from '@steeze-ui/svelte-icon';
   import { ArrowUturnLeft } from '@steeze-ui/heroicons';
+
+  // Game state
+
+  let lost = false;
+  let won = false;
+  let position = { x: 0, y: 0 };
+  let solution = getRandomWord();
+  let grid = [
+    ['', '', '', '', ''],
+    ['', '', '', '', ''],
+    ['', '', '', '', ''],
+    ['', '', '', '', ''],
+    ['', '', '', '', ''],
+  ];
 
   let usedWords = [];
 
@@ -29,18 +43,18 @@
    */
   function handleKeyPress(key) {
     // Skip when keypress is not allowed, game is won or lost
-    if (!ALLOWED_KEYS.includes(key) || $game.lost || $game.won) return;
+    if (!ALLOWED_KEYS.includes(key) || lost || won) return;
 
     if (key === 'backspace') {
-      game.setGridKey($game.position.x - 1, $game.position.y, '');
-      if ($game.position.x - 1 > 0) {
-        game.setPosX($game.position.x - 1);
+      grid[position.y][position.x - 1] = '';
+      if (position.x - 1 > 0) {
+        position.x -= 1;
       } else {
-        game.setPosX(0);
+        position.x = 0;
       }
     } else if (key === 'enter') {
-      const currentWord = $game.grid[$game.position.y].join('').toLowerCase();
-      if (currentWord === $game.solution) game.setWon(true);
+      const currentWord = grid[position.y].join('').toLowerCase();
+      if (currentWord === solution.toLowerCase()) won = true;
       if (currentWord.length !== 5) {
         alert.update(() => 'Nicht genug Buchstaben');
         return;
@@ -55,22 +69,27 @@
         alert.update(() => `'${currentWord.toUpperCase()}' bereits verwendet`);
         return;
       }
-      if ($game.position.y + 1 === 5 && !$game.won) game.setLost(true);
+      if (position.y + 1 === 5 && !won) lost = true;
       usedWords = [...usedWords, currentWord];
-      if ($game.position.y + 1 < 6) game.setPosY($game.position.y + 1);
-      if ($game.position.y + 1 < 6) game.setPosX(0);
+      if (position.y + 1 < 6) position.y += 1;
+      if (position.y + 1 < 6) position.x = 0;
       return;
     } else {
-      if ($game.grid[$game.position.y][$game.position.x] === '') {
-        game.setGridKey($game.position.x, $game.position.y, key);
+      if (grid[position.y][position.x] === '') {
+        grid[position.y][position.x] = key;
       }
-      if ($game.position.x + 1 < 6) game.setPosX($game.position.x + 1);
+      if (position.x + 1 < 6) position.x += 1;
     }
   }
 
   function resetGame() {
     usedWords = [];
-    game.reset();
+    position.x = 0;
+    position.y = 0;
+    grid.forEach((row, y) => row.forEach((key, x) => (grid[y][x] = '')));
+    won = false;
+    lost = false;
+    solution = getRandomWord();
   }
 
   onMount(() => {
@@ -85,7 +104,7 @@
 
 <!-- GRID -->
 <div class="grid">
-  {#each $game.grid as row, y}
+  {#each grid as row, y}
     <div class="grid__row">
       {#each row as key, x}
         <div class="grid__col">
@@ -93,13 +112,11 @@
             <span
               transition:scale={{ duration: 200, easing: cubicInOut }}
               class="grid__col__key
-                {$game.position.y > y &&
-              $game.solution.charAt(x) === key.toLowerCase()
+                {position.y > y && solution.charAt(x) === key.toLowerCase()
                 ? 'grid__col__key--green'
-                : $game.position.y > y &&
-                  $game.solution.includes(key.toLowerCase())
+                : position.y > y && solution.includes(key.toLowerCase())
                 ? 'grid__col__key--orange'
-                : $game.position.y > y
+                : position.y > y
                 ? 'grid__col__key--gray'
                 : ''}"
             >
@@ -112,7 +129,7 @@
   {/each}
 
   <div class="details">
-    {#if $game.won}
+    {#if won}
       <BaseAlert green>
         <span>Gewonnen 🎉</span>
         <button on:click={resetGame}>
@@ -121,9 +138,9 @@
       </BaseAlert>
     {/if}
 
-    {#if $game.lost}
+    {#if lost}
       <BaseAlert red>
-        <span>Das Wort war '{$game.solution.toUpperCase()}'</span>
+        <span>Das Wort war '{solution.toUpperCase()}'</span>
         <button on:click={resetGame}>
           <Icon src={ArrowUturnLeft} theme="solid" />
         </button>
@@ -132,7 +149,7 @@
   </div>
 </div>
 
-<Keyboard on:keypress={onUpdateKeyboard} />
+<Keyboard on:keypress={onUpdateKeyboard} {position} {grid} {solution} />
 
 <style>
   .grid {
