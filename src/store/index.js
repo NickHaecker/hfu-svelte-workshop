@@ -1,12 +1,15 @@
 import { getRandomWord } from '../utils';
 import { writable } from 'svelte/store';
 
+// WRITABLE STORES
 export const tutorialDialog = writable(true);
 export const settingsDialog = writable(false);
 export const alert = writable(null);
-export const game = createGame();
 
-function createGame() {
+// CUSTOM STORES
+export const game = initGameStore();
+
+function initGameStore() {
   const getDefaultState = () => ({
     lost: false,
     won: false,
