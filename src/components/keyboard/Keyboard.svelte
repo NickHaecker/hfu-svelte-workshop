@@ -5,59 +5,13 @@
   import Key from './Key.svelte';
   import { game } from '../../store';
 
-  const dispatch = createEventDispatcher();
-
   const rows = [
     ['Q', 'W', 'E', 'R', 'T', 'Z', 'U', 'I', 'O', 'P', 'Ü'],
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ö', 'Ä'],
     ['Y', 'X', 'C', 'V', 'B', 'N', 'M'],
   ];
 
-  let hits = [];
-  let closeHits = [];
-  let flops = [];
-
-  // Listen to changes in game data to update used keys visually
-  $: {
-    if ($game.position.y > 0) {
-      const y = $game.position.y - 1;
-      // Check row for hits
-      const currentRow = $game.grid[y];
-      currentRow.forEach((key, index) => {
-        const isHit = $game.solution[index] === key;
-        const isCloseHit =
-          $game.solution.includes(key) && $game.solution[index] !== key;
-
-        if (isHit) {
-          // Check if key already marked as hit to avoid duplicates
-          if (!hits.includes(key)) {
-            // Include key to hits
-            hits = [...hits, key];
-            // Remove key from close hits if available
-            closeHits = closeHits.filter((hit) => hit !== key);
-            // Remove key from flops if available
-            flops = flops.filter((hit) => hit !== key);
-          }
-        } else if (isCloseHit) {
-          // Check if key already marked as close hit to avoid duplicates
-          if (!closeHits.includes(key) && !hits.includes(key)) {
-            // Include key to close hits
-            closeHits = [...closeHits, key];
-            // Remove key from flops if available
-            flops = flops.filter((hit) => hit !== key);
-          }
-        } else {
-          // Include key to flops
-          flops = [...flops, key];
-        }
-      });
-    } else {
-      // Clear data
-      hits = [];
-      closeHits = [];
-      flops = [];
-    }
-  }
+  const dispatch = createEventDispatcher();
 
   function onClickKey(event) {
     dispatch('keypress', event.target.innerText);
@@ -82,13 +36,7 @@
 
       <!-- KEYS -->
       {#each row as key}
-        <Key
-          on:click={onClickKey}
-          close={closeHits.includes(key.toLowerCase())}
-          hit={hits.includes(key.toLowerCase())}
-          flop={flops.includes(key.toLowerCase())}
-          {key}
-        />
+        <Key on:click={onClickKey} {key} />
       {/each}
 
       <!-- BACKSPACE KEY ON LAST ROW -->
