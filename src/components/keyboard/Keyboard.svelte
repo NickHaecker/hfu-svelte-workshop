@@ -3,7 +3,10 @@
   import { Icon } from '@steeze-ui/svelte-icon';
   import { Backspace } from '@steeze-ui/heroicons';
   import Key from './Key.svelte';
-  import { game } from '../../store';
+
+  export let position;
+  export let solution;
+  export let grid;
 
   const dispatch = createEventDispatcher();
 
@@ -19,14 +22,13 @@
 
   // Listen to changes in game data to update used keys visually
   $: {
-    if ($game.position.y > 0) {
-      const y = $game.position.y - 1;
+    if (position.y > 0) {
+      const y = position.y - 1;
       // Check row for hits
-      const currentRow = $game.grid[y];
+      const currentRow = grid[y];
       currentRow.forEach((key, index) => {
-        const isHit = $game.solution[index] === key;
-        const isCloseHit =
-          $game.solution.includes(key) && $game.solution[index] !== key;
+        const isHit = solution[index] === key;
+        const isCloseHit = solution.includes(key) && solution[index] !== key;
 
         if (isHit) {
           // Check if key already marked as hit to avoid duplicates
