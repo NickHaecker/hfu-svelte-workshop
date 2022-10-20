@@ -5,12 +5,17 @@ Mit [Svelte](https://svelte.dev/) entwickelter [Wordle](https://www.nytimes.com/
 <details>
   <summary>Inhaltsverzeichnis</summary>
 
+- [Aufgaben](#aufgaben)
 - [Vorbereitung](#vorbereitung)
   - [Entwicklungsumgebung](#entwicklungsumgebung)
   - [Node.js](#nodejs)
 - [Setup](#setup)
 
 </details>
+
+## Aufgaben
+
+Neben dem `master` Branch befinden sich weitere Branches mit spannenden Aufgaben, um die Konzepte von Svelte näher kennenzulernen. Im Stammverzeichnis dieser Branches ist immer die Datei `TASK.md` mit der Aufgabe.
 
 ## Vorbereitung
 
