@@ -38,10 +38,10 @@
   });
 </script>
 
-{#if $alert}
+{#if alert}
   <div class="alert" transition:scale={{ duration: 200, easing: cubicInOut }}>
     <BaseAlert red>
-      <span>{$alert}</span>
+      <span>{alert}</span>
       <div class="alert__progress" style={`transform: scaleX(${progress}%)`} />
       <button class="alert__close" on:click={closeAlert}>
         <Icon src={XCircle} theme="solid" />
