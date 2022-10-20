@@ -71,13 +71,11 @@
 
 <div class="keyboard">
   <!-- KEYBOARD ROWS -->
-  {#each rows as row, index}
+  {#each rows as row}
     <!-- EACH KEYBOARD ROW -->
     <div class="keyboard__row">
       <!-- ENTER KEY ON LAST ROW -->
-      {#if index === 2}
-        <button on:click={onClickEnter}>Enter</button>
-      {/if}
+      <button on:click={onClickEnter}>Enter</button>
 
       <!-- KEYS -->
       {#each row as key}
@@ -94,11 +92,9 @@
       {/each}
 
       <!-- BACKSPACE KEY ON LAST ROW -->
-      {#if index === 2}
-        <button on:click={onClickBackspace}>
-          <Icon src={Backspace} theme="solid" />
-        </button>
-      {/if}
+      <button on:click={onClickBackspace}>
+        <Icon src={Backspace} theme="solid" />
+      </button>
     </div>
   {/each}
 </div>
