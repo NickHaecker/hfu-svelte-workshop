@@ -1,15 +1,14 @@
 # HFU Svelte Workshop
 
-Mit Svelte programmierter [Wordle](https://www.nytimes.com/games/wordle/index.html) klon.
+Mit [Svelte](https://svelte.dev/) entwickelter [Wordle](https://www.nytimes.com/games/wordle/index.html) klon.
 
 <details>
   <summary>Inhaltsverzeichnis</summary>
 
-- [HFU Svelte Workshop](#hfu-svelte-workshop)
-  - [Vorbereitung](#vorbereitung)
-    - [Entwicklungsumgebung](#entwicklungsumgebung)
-    - [Node.js](#nodejs)
-  - [Setup](#setup)
+- [Vorbereitung](#vorbereitung)
+  - [Entwicklungsumgebung](#entwicklungsumgebung)
+  - [Node.js](#nodejs)
+- [Setup](#setup)
 
 </details>
 
@@ -40,4 +39,4 @@ npm install
 npm run dev
 ```
 
-3. Öffnen Sie den Entwicklsserver unter http://localhost:5173/
+3. Öffnen Sie den Entwicklungsserver unter http://localhost:5173/
