@@ -55,7 +55,7 @@
         alert.update(() => `'${currentWord.toUpperCase()}' bereits verwendet`);
         return;
       }
-      if ($game.position.y + 1 === 5) game.setLost(true);
+      if ($game.position.y + 1 === 5 && !$game.won) game.setLost(true);
       usedWords = [...usedWords, currentWord];
       if ($game.position.y + 1 < 6) game.setPosY($game.position.y + 1);
       if ($game.position.y + 1 < 6) game.setPosX(0);
