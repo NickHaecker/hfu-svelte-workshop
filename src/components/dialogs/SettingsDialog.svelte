@@ -1,9 +1,10 @@
 <script>
-  import { settingsDialog } from '../../store';
   import BaseDialog from '../base/BaseDialog.svelte';
+
+  let settingsDialog = false;
 </script>
 
-<BaseDialog bind:show={$settingsDialog}>
+<BaseDialog bind:show={settingsDialog}>
   <span slot="title">Settings</span>
   <div slot="default">
     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi placeat

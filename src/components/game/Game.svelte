@@ -6,7 +6,7 @@
   import Keyboard from '../keyboard/Keyboard.svelte';
   import { ALLOWED_KEYS } from '../../constants';
   import { wordExists } from '../../utils';
-  import { settingsDialog, tutorialDialog, alert, game } from '../../store';
+  import { game } from '../../store';
   import { Icon } from '@steeze-ui/svelte-icon';
   import { ArrowUturnLeft } from '@steeze-ui/heroicons';
 
@@ -42,17 +42,15 @@
       const currentWord = $game.grid[$game.position.y].join('').toLowerCase();
       if (currentWord === $game.solution) game.setWon(true);
       if (currentWord.length !== 5) {
-        alert.update(() => 'Nicht genug Buchstaben');
+        alert('Nicht genug Buchstaben');
         return;
       }
       if (!wordExists(currentWord)) {
-        alert.update(
-          () => `'${currentWord.toUpperCase()}' nicht in der Wortliste`
-        );
+        alert(`'${currentWord.toUpperCase()}' nicht in der Wortliste`);
         return;
       }
       if (usedWords.includes(currentWord)) {
-        alert.update(() => `'${currentWord.toUpperCase()}' bereits verwendet`);
+        alert(`'${currentWord.toUpperCase()}' bereits verwendet`);
         return;
       }
       if ($game.position.y + 1 === 5 && !$game.won) game.setLost(true);
@@ -77,7 +75,8 @@
     // Add listener for keypressed keys on the physical keyboard.
     document.addEventListener('keydown', ({ key }) => {
       // Ignore when any dialog is open
-      if ($tutorialDialog || $settingsDialog) return;
+      // ...
+
       handleKeyPress(key.toLowerCase());
     });
   });

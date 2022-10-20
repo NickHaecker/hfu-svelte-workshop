@@ -1,9 +1,10 @@
 <script>
-  import { tutorialDialog } from '../../store';
   import BaseDialog from '../base/BaseDialog.svelte';
+
+  let tutorialDialog = false;
 </script>
 
-<BaseDialog bind:show={$tutorialDialog}>
+<BaseDialog bind:show={tutorialDialog}>
   <span slot="title">How To Play</span>
   <div slot="default">
     <p>Errate das Wordle in 6 Versuchen.</p>

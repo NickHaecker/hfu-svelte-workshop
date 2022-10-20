@@ -1,16 +1,17 @@
 <script>
   import { onMount } from 'svelte';
-  import { alert } from '../../store';
   import { scale } from 'svelte/transition';
   import { cubicInOut } from 'svelte/easing';
   import BaseAlert from '../base/BaseAlert.svelte';
   import { Icon } from '@steeze-ui/svelte-icon';
   import { XCircle } from '@steeze-ui/heroicons';
 
+  let alert = null;
+
   let progress = 100;
   let interval = null;
 
-  $: if ($alert) {
+  $: if (alert) {
     progress = 100;
     interval = createInterval();
   }
@@ -29,7 +30,7 @@
   function closeAlert() {
     progress = 0;
     clearInterval(interval);
-    alert.update(() => null);
+    alert = null;
   }
 
   onMount(() => {
