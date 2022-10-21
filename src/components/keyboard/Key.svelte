@@ -1,14 +1,18 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
+
   export let hits = false;
   export let closeHits = false;
   export let flops = false;
+
+  const dispatch = createEventDispatcher();
 </script>
 
 <button
   class="{flops ? 'highlight--flop' : ''}{hits
     ? 'highlight--hit'
     : ''}{closeHits ? 'highlight--close' : ''}"
-  on:click
+  on:click={(e) => (!flops ? dispatch('click', e) : '')}
 >
   <slot />
 </button>

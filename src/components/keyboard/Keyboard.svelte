@@ -59,15 +59,15 @@
     }
   }
 
-  function onClickKey(event) {
-    dispatch('keypress', event.target.innerText);
+  function onClickKey(key) {
+    dispatch('keypress', key);
     // Dispatch "keypress" event with klicked value to parent component "Game"
   }
-  function onClickEnter(event) {
+  function onClickEnter(key) {
     dispatch('keypress', 'enter');
     // Dispatch "keypress" event with value "enter" to parent component "Game"
   }
-  function onClickBackspace(event) {
+  function onClickBackspace(key) {
     dispatch('keypress', 'backspace');
     // Dispatch "keypress" event with value "backspace" to parent component "Game"
   }
@@ -89,7 +89,7 @@
           hits={hits.includes(key.toLowerCase())}
           closeHits={closeHits.includes(key.toLowerCase())}
           flops={flops.includes(key.toLowerCase())}
-          on:click={onClickKey}
+          on:click={() => onClickKey(key)}
         >
           <span>{key}</span></Key
         >

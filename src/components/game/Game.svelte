@@ -29,6 +29,7 @@
    */
   function handleKeyPress(key) {
     // Skip when keypress is not allowed, game is won or lost
+
     if (!ALLOWED_KEYS.includes(key) || $game.lost || $game.won) return;
 
     if (key === 'backspace') {
