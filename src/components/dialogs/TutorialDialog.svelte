@@ -1,10 +1,15 @@
 <script>
+  import { tutorialDialog } from './../../store/index.js';
+  // import { tutorialDialog } from 'src/store';
   import BaseDialog from '../base/BaseDialog.svelte';
 
-  let tutorialDialog = false;
+  let tD = false;
+  tutorialDialog.subscribe((v) => {
+    tD = v;
+  });
 </script>
 
-<BaseDialog bind:show={tutorialDialog}>
+<BaseDialog bind:show={tD}>
   <span slot="title">How To Play</span>
   <div slot="default">
     <p>Errate das Wordle in 6 Versuchen.</p>

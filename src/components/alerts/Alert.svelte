@@ -1,4 +1,6 @@
 <script>
+  import { alert } from './../../store/index.js';
+  // import Alert from './Alert.svelte';
   import { onMount } from 'svelte';
   import { scale } from 'svelte/transition';
   import { cubicInOut } from 'svelte/easing';
@@ -6,12 +8,10 @@
   import { Icon } from '@steeze-ui/svelte-icon';
   import { XCircle } from '@steeze-ui/heroicons';
 
-  let alert = null;
-
   let progress = 100;
   let interval = null;
 
-  $: if (alert) {
+  $: if ($alert) {
     progress = 100;
     interval = createInterval();
   }
@@ -30,7 +30,7 @@
   function closeAlert() {
     progress = 0;
     clearInterval(interval);
-    alert = null;
+    alert.update(() => null);
   }
 
   onMount(() => {
@@ -38,10 +38,10 @@
   });
 </script>
 
-{#if alert}
+{#if $alert}
   <div class="alert" transition:scale={{ duration: 200, easing: cubicInOut }}>
     <BaseAlert red>
-      <span>{alert}</span>
+      <span>{$alert}</span>
       <div class="alert__progress" style={`transform: scaleX(${progress}%)`} />
       <button class="alert__close" on:click={closeAlert}>
         <Icon src={XCircle} theme="solid" />

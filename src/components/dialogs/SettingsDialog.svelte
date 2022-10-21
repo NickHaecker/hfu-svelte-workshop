@@ -1,10 +1,14 @@
 <script>
+  import { settingsDialog } from './../../store/index.js';
   import BaseDialog from '../base/BaseDialog.svelte';
 
-  let settingsDialog = false;
+  let sD = false;
+  settingsDialog.subscribe((v) => {
+    sD = v;
+  });
 </script>
 
-<BaseDialog bind:show={settingsDialog}>
+<BaseDialog bind:show={sD}>
   <span slot="title">Settings</span>
   <div slot="default">
     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi placeat

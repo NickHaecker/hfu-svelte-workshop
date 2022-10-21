@@ -1,12 +1,18 @@
 <script>
+  import { settingsDialog, tutorialDialog } from './../../store/index.js';
   import { Icon } from '@steeze-ui/svelte-icon';
   import { Cog8Tooth, QuestionMarkCircle } from '@steeze-ui/heroicons';
+  // import { settingsDialog, tutorialDialog } from '/store';
 
   function onClickTutorial() {
     // ...
+    settingsDialog.update(() => false);
+    tutorialDialog.update(() => true);
   }
   function onClickSettings() {
     // ...
+    settingsDialog.update(() => true);
+    tutorialDialog.update(() => false);
   }
 </script>
 
