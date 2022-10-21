@@ -2,6 +2,10 @@
   import { Icon } from '@steeze-ui/svelte-icon';
   import { Backspace } from '@steeze-ui/heroicons';
   import { game } from '../../store';
+  import { createEventDispatcher } from 'svelte';
+  import Key from './Key.svelte';
+
+  const dispatch = createEventDispatcher();
 
   const rows = [
     ['Q', 'W', 'E', 'R', 'T', 'Z', 'U', 'I', 'O', 'P', 'Ü'],
@@ -55,42 +59,48 @@
     }
   }
 
-  function onClickKey() {
+  function onClickKey(event) {
+    dispatch('keypress', event.target.innerText);
     // Dispatch "keypress" event with klicked value to parent component "Game"
   }
-  function onClickEnter() {
+  function onClickEnter(event) {
+    dispatch('keypress', 'enter');
     // Dispatch "keypress" event with value "enter" to parent component "Game"
   }
-  function onClickBackspace() {
+  function onClickBackspace(event) {
+    dispatch('keypress', 'backspace');
     // Dispatch "keypress" event with value "backspace" to parent component "Game"
   }
 </script>
 
 <div class="keyboard">
   <!-- KEYBOARD ROWS -->
-  {#each rows as row}
+  {#each rows as row, i}
     <!-- EACH KEYBOARD ROW -->
     <div class="keyboard__row">
       <!-- ENTER KEY ON LAST ROW -->
-      <button>Enter</button>
+      {#if i === rows.length - 1}
+        <Key on:click={onClickEnter}>Enter</Key>
+      {/if}
 
       <!-- KEYS -->
       {#each row as key}
-        <button
-          class="
-            {hits.includes(key.toLowerCase()) ? 'highlight--hit' : ''}
-            {closeHits.includes(key.toLowerCase()) ? 'highlight--close' : ''}
-            {flops.includes(key.toLowerCase()) ? 'highlight--flop' : ''}
-          "
+        <Key
+          hits={hits.includes(key.toLowerCase())}
+          closeHits={closeHits.includes(key.toLowerCase())}
+          flops={flops.includes(key.toLowerCase())}
+          on:click={onClickKey}
         >
-          <span>{key}</span>
-        </button>
+          <span>{key}</span></Key
+        >
       {/each}
 
       <!-- BACKSPACE KEY ON LAST ROW -->
-      <button>
-        <Icon src={Backspace} theme="solid" />
-      </button>
+      {#if i === rows.length - 1}
+        <Key on:click={onClickBackspace}>
+          <Icon src={Backspace} theme="solid" /></Key
+        >
+      {/if}
     </div>
   {/each}
 </div>
@@ -112,42 +122,5 @@
   :global(.keyboard__row > * ~ *) {
     margin-left: 0.125rem;
     margin-right: 0.125rem;
-  }
-  button {
-    height: 3.5rem;
-    min-width: 2.75rem;
-    border-radius: var(--rounded-lg);
-    border: 1px var(--red-500) solid;
-    padding: 0 1rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    transition: all 100ms linear;
-  }
-  button:not(.highlight--flop, .highlight--hit, .highlight--close):hover {
-    transform: scale(0.95);
-    background-color: var(--red-50);
-  }
-
-  button:not(.highlight--hit, .highlight-close):active {
-    transform: scale(0.9);
-    color: white;
-    background-color: var(--red-500);
-  }
-  .highlight--close {
-    color: white;
-    background-color: var(--orange-500);
-  }
-  .highlight--hit {
-    color: white;
-    background-color: var(--green-500);
-  }
-  .highlight--flop {
-    background-color: var(--gray-200);
-  }
-  .highlight--flop,
-  .highlight--hit,
-  .highlight--close {
-    cursor: default;
-    border: none;
   }
 </style>
