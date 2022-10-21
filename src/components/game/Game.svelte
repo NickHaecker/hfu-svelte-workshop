@@ -79,7 +79,6 @@
   }
 
   onMount(() => {
-    tutorialDialog.update(() => true);
     // Add listener for keypressed keys on the physical keyboard.
     document.addEventListener('keydown', ({ key }) => {
       // Ignore when any dialog is open
@@ -87,6 +86,7 @@
       if ($settingsDialog || $tutorialDialog) return;
       handleKeyPress(key.toLowerCase());
     });
+    tutorialDialog.update(() => true);
   });
 </script>
 

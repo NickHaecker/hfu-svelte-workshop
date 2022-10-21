@@ -1,4 +1,5 @@
 <script>
+  import { tutorialDialog, settingsDialog } from './../../store/index.js';
   import { fade, scale } from 'svelte/transition';
   import { cubicInOut } from 'svelte/easing';
   import { Icon } from '@steeze-ui/svelte-icon';
@@ -7,6 +8,8 @@
   export let show;
 
   function onClickClose() {
+    $tutorialDialog = false;
+    $settingsDialog = false;
     show = false;
   }
 </script>
